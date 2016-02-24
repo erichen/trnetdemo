@@ -1,0 +1,12 @@
+Binaries
+DerivedDataCache
+Intermediate
+Saved
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
+Build/Receipts/trnetdemoEditor-Win64-Development.target.xml
+trnetdemo.VC.opendb
