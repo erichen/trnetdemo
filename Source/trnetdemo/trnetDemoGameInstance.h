@@ -67,7 +67,7 @@ class TRNETDEMO_API UtrnetDemoGameInstance : public UGameInstance
 	*
 	*	@return bool true if successful, false otherwise
 	*/
-	bool JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult);
+	bool JoinSessionA(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult);
 
 	/**
 	*	Delegate fired when a session join request has completed

@@ -192,7 +192,7 @@ void UtrnetDemoGameInstance::OnFindSessionsComplete(bool bWasSuccessful)
 	}
 }
 
-bool UtrnetDemoGameInstance::JoinSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult)
+bool UtrnetDemoGameInstance::JoinSessionA(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, const FOnlineSessionSearchResult& SearchResult)
 {
 	// Return bool
 	bool bSuccessful = false;
@@ -317,7 +317,7 @@ void UtrnetDemoGameInstance::JoinOnlineGame()
 				// Once we found sounce a Session that is not ours, just join it. Instead of using a for loop, you could
 				// use a widget where you click on and have a reference for the GameSession it represents which you can use
 				// here
-				JoinSession(Player->GetPreferredUniqueNetId(), GameSessionName, SearchResult);
+				JoinSessionA(Player->GetPreferredUniqueNetId(), GameSessionName, SearchResult);
 				break;
 			}
 		}
