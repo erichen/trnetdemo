@@ -6,6 +6,7 @@ public class trnetdemo : ModuleRules
 {
 	public trnetdemo(TargetInfo Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
-	}
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "OnlineSubsystem", "OnlineSubsystemUtils" });
+        DynamicallyLoadedModuleNames.Add("OnlineSubsystemNull");
+    }
 }

@@ -3,6 +3,8 @@
 #ifndef __TRNETDEMO_H__
 #define __TRNETDEMO_H__
 
-#include "EngineMinimal.h"
+#include "Engine.h"
+#include "UnrealNetwork.h"
+#include "Online.h"
 
 #endif
