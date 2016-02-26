@@ -4,7 +4,8 @@
 #include "trnetDemoGameInstance.h"
 
 UtrnetDemoGameInstance::UtrnetDemoGameInstance(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer) {
+	: Super(ObjectInitializer)
+	, isLoading_(false) {
 	/** Bind function for CREATING a Session */
 	OnCreateSessionCompleteDelegate = FOnCreateSessionCompleteDelegate::CreateUObject(this, &UtrnetDemoGameInstance::OnCreateSessionComplete);
 	OnStartSessionCompleteDelegate = FOnStartSessionCompleteDelegate::CreateUObject(this, &UtrnetDemoGameInstance::OnStartOnlineGameComplete);
@@ -52,6 +53,7 @@ bool UtrnetDemoGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId, 
 			OnCreateSessionCompleteDelegateHandle = Sessions->AddOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegate);
 
 			// Our delegate should get called when this is complete (doesn't need to be successful!)
+			isLoading_ = true;
 			return Sessions->CreateSession(*UserId, SessionName, *SessionSettings);
 		}
 	}
@@ -65,8 +67,8 @@ bool UtrnetDemoGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId, 
 
 void UtrnetDemoGameInstance::OnCreateSessionComplete(FName SessionName, bool bWasSuccessful)
 {
+	isLoading_ = false;
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OnCreateSessionComplete %s, %s"), *SessionName.ToString(), bWasSuccessful ? TEXT("sucess") : TEXT("fail")));
-
 	// Get the OnlineSubsystem so we can get the Session Interface
 	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
 	if (OnlineSub)

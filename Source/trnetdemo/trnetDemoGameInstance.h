@@ -96,6 +96,10 @@ class TRNETDEMO_API UtrnetDemoGameInstance : public UGameInstance
 	UFUNCTION(BlueprintCallable, Category = "Network|Test")
 	void DestroySession();
 
+	/** Blueprint event so a fade can be applied before setting hidden */
+	UPROPERTY(BlueprintReadOnly, Category = "Network|Test")
+	bool isLoading_;
+
  private:
 	/* Delegate called when session created */
 	FOnCreateSessionCompleteDelegate OnCreateSessionCompleteDelegate;
