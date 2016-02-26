@@ -10,3 +10,4 @@ Saved
 *.xcworkspace
 Build/Receipts/trnetdemoEditor-Win64-Development.target.xml
 trnetdemo.VC.opendb
+*.uproject
