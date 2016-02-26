@@ -1,6 +1,5 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{E54EC816-44F3-8736-83E0-14B55C78DD01}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -12,5 +11,5 @@
 				"Engine"
 			]
 		}
-	]
+	],
 }
