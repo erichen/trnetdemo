@@ -305,7 +305,13 @@ void UtrnetDemoGameInstance::JoinOnlineGame()
 
 	// Just a SearchResult where we can save the one we want to use, for the case we find more than one!
 	FOnlineSessionSearchResult SearchResult;
+    if (!SessionSearch.IsValid()) {
+        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OFindSessionsComplete ")));
+        FindOnlineGames();
+        return;
+    }
 
+    GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("FindSessions Num: %d "), SessionSearch->SearchResults.Num()));
 	// If the Array is not empty, we can go through it
 	if (SessionSearch->SearchResults.Num() > 0)
 	{
