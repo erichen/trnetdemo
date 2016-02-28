@@ -121,6 +121,7 @@ void UtrnetDemoGameInstance::FindSessions(TSharedPtr<const FUniqueNetId> UserId,
 {
 	// Get the OnlineSubsystem we want to work with
 	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+    isLoading_ = true;
 
 	if (OnlineSub)
 	{
@@ -162,6 +163,7 @@ void UtrnetDemoGameInstance::FindSessions(TSharedPtr<const FUniqueNetId> UserId,
 
 void UtrnetDemoGameInstance::OnFindSessionsComplete(bool bWasSuccessful)
 {
+    isLoading_ = false;
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OFindSessionsComplete bSuccess: %d"), bWasSuccessful));
 
 	// Get OnlineSubsystem we want to work with
@@ -214,6 +216,7 @@ bool UtrnetDemoGameInstance::JoinSessionA(TSharedPtr<const FUniqueNetId> UserId,
 
 			// Call the "JoinSession" Function with the passed "SearchResult". The "SessionSearch->SearchResults" can be used to get such a
 			// "FOnlineSessionSearchResult" and pass it. Pretty straight forward!
+            isLoading_ = true;
 			bSuccessful = Sessions->JoinSession(*UserId, SessionName, SearchResult);
 		}
 	}
@@ -223,6 +226,7 @@ bool UtrnetDemoGameInstance::JoinSessionA(TSharedPtr<const FUniqueNetId> UserId,
 
 void UtrnetDemoGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
+    isLoading_ = false;
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OnJoinSessionComplete %s, %d"), *SessionName.ToString(), static_cast<int32>(Result)));
 
 	// Get the OnlineSubsystem we want to work with
