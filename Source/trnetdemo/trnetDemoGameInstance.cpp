@@ -59,36 +59,39 @@ bool UtrnetDemoGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId, 
     OnCreateSessionCompleteDelegateHandle = Sessions->AddOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegate);
 
     // Our delegate should get called when this is complete (doesn't need to be successful!)
-    isLoading_ = true;
-    return Sessions->CreateSession(*UserId, SessionName, *SessionSettings);
+    bool bCreateSession = Sessions->CreateSession(*UserId, SessionName, *SessionSettings);
+    if (!bCreateSession) {
+        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("Create Sessions fail"));
+    }
+    return bCreateSession;
 }
 
 void UtrnetDemoGameInstance::OnCreateSessionComplete(FName SessionName, bool bWasSuccessful)
 {
-	isLoading_ = false;
 	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OnCreateSessionComplete %s, %s"), *SessionName.ToString(), bWasSuccessful ? TEXT("sucess") : TEXT("fail")));
 	// Get the OnlineSubsystem so we can get the Session Interface
 	IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
-	if (OnlineSub)
+	if (!OnlineSub)
 	{
-		// Get the Session Interface to call the StartSession function
-		IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+        return;
+    }
+    // Get the Session Interface to call the StartSession function
+    IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
 
-		if (Sessions.IsValid())
-		{
-			// Clear the SessionComplete delegate handle, since we finished this call
-			Sessions->ClearOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegateHandle);
-			if (bWasSuccessful)
-			{
-				// Set the StartSession delegate handle
-				OnStartSessionCompleteDelegateHandle = Sessions->AddOnStartSessionCompleteDelegate_Handle(OnStartSessionCompleteDelegate);
+    if (Sessions.IsValid())
+    {
+        return;
+    }
+    // Clear the SessionComplete delegate handle, since we finished this call
+    Sessions->ClearOnCreateSessionCompleteDelegate_Handle(OnCreateSessionCompleteDelegateHandle);
+    if (bWasSuccessful)
+    {
+        // Set the StartSession delegate handle
+        OnStartSessionCompleteDelegateHandle = Sessions->AddOnStartSessionCompleteDelegate_Handle(OnStartSessionCompleteDelegate);
 
-				// Our StartSessionComplete delegate should get called after this
-				Sessions->StartSession(SessionName);
-			}
-		}
-
-	}
+        // Our StartSessionComplete delegate should get called after this
+        Sessions->StartSession(SessionName);
+    }
 }
 
 void UtrnetDemoGameInstance::OnStartOnlineGameComplete(FName SessionName, bool bWasSuccessful)
@@ -310,17 +313,19 @@ void UtrnetDemoGameInstance::JoinOnlineGame()
 	// Just a SearchResult where we can save the one we want to use, for the case we find more than one!
 	FOnlineSessionSearchResult SearchResult;
     if (!SessionSearch.IsValid()) {
-        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("OFindSessionsComplete ")));
-        FindOnlineGames();
+        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("No Session Search Relult,Pls using 'find Gmes' first ")));
         return;
     }
 
-    GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("FindSessions Num: %d "), SessionSearch->SearchResults.Num()));
 	// If the Array is not empty, we can go through it
 	if (SessionSearch->SearchResults.Num() <= 0)
 	{
+        GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("No Session found!!!,Can NOT do join!")));
         return;
     }
+    
+    // find sessions,join first session
+    GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, FString::Printf(TEXT("FindSessions Num: %d "), SessionSearch->SearchResults.Num()));
     for (int32 i = 0; i < SessionSearch->SearchResults.Num(); i++)
     {
         // To avoid something crazy, we filter sessions from ourself
