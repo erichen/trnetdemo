@@ -5,7 +5,9 @@
 
 UtrnetDemoGameInstance::UtrnetDemoGameInstance(const FObjectInitializer& ObjectInitializer)
         : Super(ObjectInitializer)
-        , isLoading_(false) {
+        , isLoading_(false)
+		, hasExternalLoginUI_(false)
+		, isLogin_(true){
 	/** Bind function for CREATING a Session */
 	OnCreateSessionCompleteDelegate = FOnCreateSessionCompleteDelegate::CreateUObject(this, &UtrnetDemoGameInstance::OnCreateSessionComplete);
 	OnStartSessionCompleteDelegate = FOnStartSessionCompleteDelegate::CreateUObject(this, &UtrnetDemoGameInstance::OnStartOnlineGameComplete);
@@ -15,6 +17,14 @@ UtrnetDemoGameInstance::UtrnetDemoGameInstance(const FObjectInitializer& ObjectI
 	OnJoinSessionCompleteDelegate = FOnJoinSessionCompleteDelegate::CreateUObject(this, &UtrnetDemoGameInstance::OnJoinSessionComplete);
 	/** Bind function for DESTROYING a Session */
 	OnDestroySessionCompleteDelegate = FOnDestroySessionCompleteDelegate::CreateUObject(this, &UtrnetDemoGameInstance::OnDestroySessionComplete);
+
+	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
+	IOnlineExternalUIPtr externalUI = OnlineSub->GetExternalUIInterface();
+	hasExternalLoginUI_ = externalUI.IsValid();
+
+	if (hasExternalLoginUI_) {
+		isLogin_ = false;
+	}
 }
 
 bool UtrnetDemoGameInstance::HostSession(TSharedPtr<const FUniqueNetId> UserId, FName SessionName, bool bIsLAN, bool bIsPresence, int32 MaxNumPlayers)

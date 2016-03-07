@@ -99,6 +99,10 @@ class TRNETDEMO_API UtrnetDemoGameInstance : public UGameInstance
 	/** Blueprint event so a fade can be applied before setting hidden */
 	UPROPERTY(BlueprintReadOnly, Category = "Network|Test")
 	bool isLoading_;
+	UPROPERTY(BlueprintReadOnly, Category = "Network|Test")
+	bool hasExternalLoginUI_;
+	UPROPERTY(BlueprintReadWrite, Category = "Network|Test")
+	bool isLogin_;
 
  private:
 	/* Delegate called when session created */
