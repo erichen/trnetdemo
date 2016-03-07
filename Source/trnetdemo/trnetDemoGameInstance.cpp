@@ -78,7 +78,7 @@ void UtrnetDemoGameInstance::OnCreateSessionComplete(FName SessionName, bool bWa
     // Get the Session Interface to call the StartSession function
     IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
 
-    if (Sessions.IsValid())
+    if (!Sessions.IsValid())
     {
         return;
     }
