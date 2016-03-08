@@ -11,5 +11,11 @@
 				"Engine"
 			]
 		}
+	],
+	"Plugins": [
+		{
+			"Name": "OnlineSubsystemTRNet",
+			"Enabled": true
+		}
 	]
 }

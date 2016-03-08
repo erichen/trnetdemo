@@ -21,6 +21,7 @@ UtrnetDemoGameInstance::UtrnetDemoGameInstance(const FObjectInitializer& ObjectI
 	IOnlineSubsystem* const OnlineSub = IOnlineSubsystem::Get();
 	IOnlineExternalUIPtr externalUI = OnlineSub->GetExternalUIInterface();
 	hasExternalLoginUI_ = externalUI.IsValid();
+	UE_LOG(LogInit, Warning, TEXT("hasExternalLoginUI_: %s"), hasExternalLoginUI_ ? TEXT("true"):TEXT("false"));
 
 	if (hasExternalLoginUI_) {
 		isLogin_ = false;
