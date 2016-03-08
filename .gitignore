@@ -11,3 +11,5 @@ Saved
 Build/Receipts/trnetdemoEditor-Win64-Development.target.xml
 trnetdemo.VC.opendb
 *.uproject
+*.opendb
+Build/
