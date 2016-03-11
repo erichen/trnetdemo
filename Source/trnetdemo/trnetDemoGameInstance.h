@@ -105,6 +105,8 @@ class TRNETDEMO_API UtrnetDemoGameInstance : public UGameInstance
 	bool isLogin_;
 
  private:
+    IOnlineSessionPtr GetSession();
+    
 	/* Delegate called when session created */
 	FOnCreateSessionCompleteDelegate OnCreateSessionCompleteDelegate;
 	/* Delegate called when session started */
